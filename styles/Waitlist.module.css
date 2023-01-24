@@ -1,0 +1,59 @@
+.waitlist {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+  background-color: #232323;
+  color: white;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+}
+
+.formWrapper {
+  padding-top: 3rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.formInput {
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+}
+
+.formTextInput {
+  flex: 80%;
+  margin-right: 5%;
+  color: white;
+}
+
+.formSubmitButton {
+  flex: 15%;
+  background-color: #e75a70;
+  color: white;
+}
+
+.error {
+  color: red;
+}
+
+@media (max-width: 900px) {
+  .formWrapper {
+    flex-direction: column;
+  }
+  .formInput {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  .formSubmitButton {
+    width: 100%;
+  }
+}
