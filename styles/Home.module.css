@@ -1,23 +1,19 @@
 .main {
   display: flex;
-  /* flex-direction: column;
-  justify-content: space-between;
-  align-items: center; */
+  flex-direction: column;
   padding: 6rem;
   min-height: 100vh;
 }
 
 .logomark {
   display: flex;
-  /* flex-direction: column;
-  justify-content: center; */
   align-items: center;
   margin-bottom: 2rem;
 }
 
 .logomark__logo {
-  width: 100%;
-  max-width: 10rem;
+  height: 100%;
+  margin-right: 1rem;
 }
 
 .logomark__wordmark {
