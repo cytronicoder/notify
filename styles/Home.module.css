@@ -1,8 +1,61 @@
 .main {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: center; */
   padding: 6rem;
   min-height: 100vh;
+}
+
+.logomark {
+  display: flex;
+  /* flex-direction: column;
+  justify-content: center; */
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.logomark__logo {
+  width: 100%;
+  max-width: 10rem;
+}
+
+.logomark__wordmark {
+  height: 100%;
+}
+
+.description {
+  font-weight: 400;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.underline_onhover {
+  display: inline-block;
+  position: relative;
+  color: #E75A70;
+}
+
+.underline_onhover::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #E75A70;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.underline_onhover:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+@media (prefers-color-scheme: light) {
+  .logomark__wordmark {
+    filter: invert(1);
+  }
 }

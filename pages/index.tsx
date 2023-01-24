@@ -1,9 +1,19 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Roboto_Slab } from "@next/font/google";
-import styles from "@/styles/Home.module.css";
 
+// Fonts
+import { Roboto_Slab } from "@next/font/google";
 const robotoSlab = Roboto_Slab({ subsets: ["latin"] });
+
+// Assets
+import logo from "@/assets/logo.svg";
+import wordmark from "@/assets/wordmark.svg";
+
+// Components
+// import Waitlist from "@/components/Waitlist";
+
+// Styles
+import styles from "@/styles/Home.module.css";
 
 export default function Home() {
   return (
@@ -37,16 +47,42 @@ export default function Home() {
         />
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
+
       <main className={styles.main}>
         <header className={styles.header}>
-          <div className={robotoSlab.className}>
-            <h1 className={styles.title}>Notify</h1>
+          <div className={styles.logomark}>
+            <Image
+              src={logo}
+              alt="Notify logo"
+              className={styles.logomark__logo}
+              width={385}
+              height={88}
+            />
+            <Image
+              src={wordmark}
+              alt="Notify wordmark"
+              className={styles.logomark__wordmark}
+              width={255}
+              height={88}
+            />
           </div>
-          <p className={styles.description}>
-            Write a note for someone to sign or leave a message for someone to
-            read. Currently in development. Check back soon!
-          </p>
+          <div className={robotoSlab.className}>
+            <p className={styles.description}>
+              Write a note for someone to sign or leave a message for someone to
+              read. Currently in development. Meanwhile, you can{" "}
+              <a
+                href="https://github.com/cytronicoder/notify"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.underline_onhover}
+              >
+                check out our GitHub repository.
+              </a>
+            </p>
+          </div>
         </header>
+
+        {/* <Waitlist /> */}
       </main>
     </>
   );
