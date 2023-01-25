@@ -1,4 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { EmbedBuilder, WebhookClient } from "discord.js";
+
+require("dotenv").config();
+const { DISCORD_WEBHOOK_URL } = process.env;
 
 function validateEmail(body: any, res: NextApiResponse) {
   if (!body) {
@@ -21,16 +25,28 @@ function validateEmail(body: any, res: NextApiResponse) {
   return email;
 }
 
+async function saveEmail(email: string) {
+  // Logs email to Discord channel via webhook
+  const webhookClient = new WebhookClient({
+    url: DISCORD_WEBHOOK_URL as string,
+  });
+
+  const embed = new EmbedBuilder()
+    .setTitle("New waitlist signup")
+    .setDescription(email)
+    .setColor(0xe75a70)
+    .setTimestamp();
+
+  webhookClient.send({
+    embeds: [embed],
+  });
+}
+
 async function waitlistHandler(req: NextApiRequest, res: NextApiResponse) {
   const body = JSON.parse(req.body);
   const email = validateEmail(body, res);
   await saveEmail(email);
   res.status(200).send("Email saved");
-}
-
-async function saveEmail(email: string) {
-  // TODO: Save email to database or something
-  console.log("Got email: " + email);
 }
 
 export default async function handler(
