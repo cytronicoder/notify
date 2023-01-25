@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { EmbedBuilder, WebhookClient } from "discord.js";
+import { validate } from "email-validator";
 
 require("dotenv").config();
 const { DISCORD_WEBHOOK_URL } = process.env;
@@ -14,11 +15,7 @@ function validateEmail(body: any, res: NextApiResponse) {
     res.status(400).send("Missing email");
   } else if (email.length > 300) {
     res.status(400).send("Email is too long");
-  } else if (
-    !email.match(
-      /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
-    )
-  ) {
+  } else if (!validate(email)) {
     res.status(400).send("Invalid email");
   }
 
