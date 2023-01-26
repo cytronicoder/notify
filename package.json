@@ -13,6 +13,7 @@
     "@types/node": "18.11.18",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
+    "cookie": "^0.5.0",
     "discord.js": "^14.7.1",
     "email-validator": "^2.0.4",
     "eslint": "8.32.0",
