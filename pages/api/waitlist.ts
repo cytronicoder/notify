@@ -15,12 +15,17 @@ function validateEmail(body: any, res: NextApiResponse) {
     res.status(400).send("Email is too long");
   } else if (!validate(email)) {
     res.status(400).send("Invalid email");
+  } else {
+    return email;
   }
-
-  return email;
 }
 
 async function saveEmail(email: string) {
+  // If no email is provided, this function will not be called
+  if (!email) {
+    return;
+  }
+
   // Logs email to Google Sheets
   const { GoogleSpreadsheet } = require("google-spreadsheet");
   const {
@@ -69,7 +74,7 @@ async function waitlistHandler(req: NextApiRequest, res: NextApiResponse) {
   const body = JSON.parse(req.body);
   const email = validateEmail(body, res);
   await saveEmail(email);
-  res.status(200).send("Email saved");
+  res.status(200).send("Email saved!");
 }
 
 export default async function handler(
@@ -79,6 +84,6 @@ export default async function handler(
   if (req.method === "POST") {
     await waitlistHandler(req, res);
   } else {
-    res.status(404).json({ message: "Not found" });
+    res.status(404).json({ message: "Not found!" });
   }
 }
