@@ -66,14 +66,25 @@ async function saveEmail(email: string) {
   webhookClient.send({
     embeds: [embed],
   });
-
-  console.log(`Saved email ${email}`);
 }
 
 async function waitlistHandler(req: NextApiRequest, res: NextApiResponse) {
   const body = JSON.parse(req.body);
   const email = validateEmail(body, res);
   await saveEmail(email);
+
+  // Set hasSubmitted cookie
+  const { serialize } = require("cookie");
+  const { NODE_ENV } = process.env;
+
+  const cookie = serialize("hasSubmitted", "true", {
+    maxAge: 60 * 60 * 24 * 365, // 1 year
+    path: "/",
+    sameSite: "lax",
+    secure: NODE_ENV === "production",
+  });
+
+  res.setHeader("Set-Cookie", cookie);
   res.status(200).send("Email saved!");
 }
 
@@ -82,6 +93,16 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
+    // Check if user is on waitlist already via a hasSubmitted cookie
+    const { parse } = require("cookie");
+    const cookies = parse(req.headers.cookie || "");
+    const hasSubmitted = cookies["hasSubmitted"];
+
+    if (hasSubmitted) {
+      res.status(400).send("You have already submitted your email!");
+      return;
+    }
+
     await waitlistHandler(req, res);
   } else {
     res.status(404).json({ message: "Not found!" });

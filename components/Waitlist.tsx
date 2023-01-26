@@ -5,7 +5,6 @@ import styles from "../styles/Waitlist.module.css";
 
 function Form() {
   const [email, setEmail] = useState("");
-  // TODO: Add persistence to this state
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [error, setError] = useState("");
 
