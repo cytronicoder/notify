@@ -31,17 +31,24 @@
 
 .formTextInput {
   flex: 80%;
-  margin-right: 5%;
+  margin-right: 2%;
   color: white;
 }
 
 .formSubmitButton {
-  flex: 15%;
-  background-color: #e75a70;
+  flex: 18%;
+  background-color: #338eda;
   color: white;
 }
 
+.formSubmitButton:hover {
+  background-color: #2a7bbf;
+  transform: scale(1.05);
+  transition: 0.2s ease-in-out;
+}
+
 .error {
+  margin-top: 1rem;
   color: red;
 }
 
