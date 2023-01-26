@@ -1,7 +1,7 @@
 .main {
   display: flex;
   flex-direction: column;
-  padding: 6rem;
+  padding: 2rem;
   min-height: 100vh;
 }
 
@@ -53,5 +53,15 @@
 @media (prefers-color-scheme: light) {
   .logomark__wordmark {
     filter: invert(1);
+  }
+}
+
+@media (max-width: 600px) {
+  .logomark {
+    justify-content: center;
+  }
+
+  .description {
+    font-size: 1.25rem;
   }
 }
