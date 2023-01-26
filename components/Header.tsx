@@ -9,8 +9,9 @@ export default function Header() {
         content="Write a note for someone to sign or leave a message for someone to read."
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="theme-color" content="#e75a70" />
 
-      {/* favicons */}
+      {/* Favicons */}
       <link rel="icon" href="/favicon.ico" />
       <link
         rel="apple-touch-icon"
