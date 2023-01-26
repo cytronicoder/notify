@@ -1,9 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { EmbedBuilder, WebhookClient } from "discord.js";
-import { validate } from "email-validator";
-
 require("dotenv").config();
-const { DISCORD_WEBHOOK_URL } = process.env;
 
 function validateEmail(body: any, res: NextApiResponse) {
   if (!body) {
@@ -11,6 +7,8 @@ function validateEmail(body: any, res: NextApiResponse) {
   }
 
   const email = body["email"];
+  const { validate } = require("email-validator");
+
   if (!email) {
     res.status(400).send("Missing email");
   } else if (email.length > 300) {
@@ -23,7 +21,33 @@ function validateEmail(body: any, res: NextApiResponse) {
 }
 
 async function saveEmail(email: string) {
+  // Logs email to Google Sheets
+  const { GoogleSpreadsheet } = require("google-spreadsheet");
+  const {
+    WAITLIST_SHEET_ID,
+    GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    GOOGLE_PRIVATE_KEY,
+  } = process.env;
+
+  const doc = new GoogleSpreadsheet(WAITLIST_SHEET_ID as string);
+
+  await doc.useServiceAccountAuth({
+    client_email: GOOGLE_SERVICE_ACCOUNT_EMAIL as string,
+    private_key: GOOGLE_PRIVATE_KEY as string,
+  });
+
+  await doc.loadInfo();
+  const sheet = doc.sheetsByIndex[0];
+
+  await sheet.addRow({
+    email,
+    timestamp: Math.floor(Date.now() / 1000), // Unix timestamp - easier to sort
+  });
+
   // Logs email to Discord channel via webhook
+  const { WebhookClient, EmbedBuilder } = require("discord.js");
+  const { DISCORD_WEBHOOK_URL } = process.env;
+
   const webhookClient = new WebhookClient({
     url: DISCORD_WEBHOOK_URL as string,
   });
@@ -37,6 +61,8 @@ async function saveEmail(email: string) {
   webhookClient.send({
     embeds: [embed],
   });
+
+  console.log(`Saved email ${email}`);
 }
 
 async function waitlistHandler(req: NextApiRequest, res: NextApiResponse) {
