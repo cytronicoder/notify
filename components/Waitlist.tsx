@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 
 // Styles
-import styles from "../styles/Waitlist.module.css";
+import styles from "@/styles/Waitlist.module.css";
+
+// Components
+import Loading from "@/components/Loading";
 
 function Form() {
   const [email, setEmail] = useState("");
@@ -9,7 +12,7 @@ function Form() {
   const [emailSent, setEmailSent] = useState(false);
   const [error, setError] = useState("");
 
-  const submit = async (e: { preventDefault: () => void; }) => {
+  const submit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     // Reset error and loading state
@@ -38,7 +41,7 @@ function Form() {
   if (loading) {
     return (
       <div className={styles.formWrapper}>
-        <span className={[styles.subtitle, styles.loading].join(" ")}>Loading...</span>
+        <Loading />
       </div>
     );
   }
@@ -48,17 +51,7 @@ function Form() {
     return (
       <div className={styles.formWrapper}>
         <span className={styles.subtitle}>
-          Thanks for signing up! We will be in touch soon. In the meantime, you
-          can{" "}
-          <a
-            href="https://twitter.com/cytronicoder"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.underline_onhover}
-          >
-            follow me on Twitter
-          </a>{" "}
-          for updates.
+          Thanks for signing up! We will be in touch soon.
         </span>
       </div>
     );

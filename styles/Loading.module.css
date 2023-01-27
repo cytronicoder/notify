@@ -1,0 +1,36 @@
+.loading {
+  display: block;
+}
+
+.loading__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading__loader {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 5px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+.loader__text {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
