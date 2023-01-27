@@ -38,7 +38,7 @@ function Form() {
   if (loading) {
     return (
       <div className={styles.formWrapper}>
-        <span className={styles.subtitle}>Loading...</span>
+        <span className={[styles.subtitle, styles.loading].join(" ")}>Loading...</span>
       </div>
     );
   }
@@ -48,7 +48,17 @@ function Form() {
     return (
       <div className={styles.formWrapper}>
         <span className={styles.subtitle}>
-          Thanks for signing up! We will be in touch soon.
+          Thanks for signing up! We will be in touch soon. In the meantime, you
+          can{" "}
+          <a
+            href="https://twitter.com/cytronicoder"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.underline_onhover}
+          >
+            follow me on Twitter
+          </a>{" "}
+          for updates.
         </span>
       </div>
     );

@@ -20,13 +20,7 @@ function validateEmail(body: any, res: NextApiResponse) {
   }
 }
 
-async function saveEmail(email: string) {
-  // If no email is provided, this function will not be called
-  if (!email) {
-    return;
-  }
-
-  // Logs email to Google Sheets
+async function fetchSheet() {
   const { GoogleSpreadsheet } = require("google-spreadsheet");
   const {
     WAITLIST_SHEET_ID,
@@ -43,6 +37,18 @@ async function saveEmail(email: string) {
 
   await doc.loadInfo();
   const sheet = doc.sheetsByIndex[0];
+
+  return sheet;
+}
+
+async function saveEmail(email: string) {
+  // If no email is provided, this function will not be called
+  if (!email) {
+    return;
+  }
+
+  // Logs email to Google Sheets
+  const sheet = await fetchSheet();
 
   await sheet.addRow({
     email,
@@ -72,19 +78,6 @@ async function waitlistHandler(req: NextApiRequest, res: NextApiResponse) {
   const body = JSON.parse(req.body);
   const email = validateEmail(body, res);
   await saveEmail(email);
-
-  // Set hasSubmitted cookie
-  const { serialize } = require("cookie");
-  const { NODE_ENV } = process.env;
-
-  const cookie = serialize("hasSubmitted", "true", {
-    maxAge: 60 * 60 * 24 * 365, // 1 year
-    path: "/",
-    sameSite: "lax",
-    secure: NODE_ENV === "production",
-  });
-
-  res.setHeader("Set-Cookie", cookie);
   res.status(200).send("Email saved!");
 }
 
@@ -93,10 +86,14 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    // Check if user is on waitlist already via a hasSubmitted cookie
-    const { parse } = require("cookie");
-    const cookies = parse(req.headers.cookie || "");
-    const hasSubmitted = cookies["hasSubmitted"];
+    // Check if user is on waitlist already via Google Sheets
+    const sheet = await fetchSheet();
+
+    const body = JSON.parse(req.body);
+    const email = validateEmail(body, res);
+
+    const rows = await sheet.getRows();
+    const hasSubmitted = rows.some((row: { email: any; }) => row.email === email);
 
     if (hasSubmitted) {
       res.status(400).send("You have already submitted your email!");

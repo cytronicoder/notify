@@ -47,9 +47,51 @@
   transition: 0.2s ease-in-out;
 }
 
+.loading {
+  color: #e75a70;
+  animation: loading 1s infinite;
+}
+
+@keyframes loading {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .error {
   margin-top: 1rem;
   color: red;
+}
+
+/* Underline effect on hover */
+.underline_onhover {
+  display: inline-block;
+  position: relative;
+  color: #e75a70;
+}
+
+.underline_onhover::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #e75a70;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.underline_onhover:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }
 
 @media (max-width: 900px) {
