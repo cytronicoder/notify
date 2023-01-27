@@ -5,24 +5,46 @@ import styles from "../styles/Waitlist.module.css";
 
 function Form() {
   const [email, setEmail] = useState("");
-  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
   const [error, setError] = useState("");
 
-  const submit = async (e: { preventDefault: () => void }) => {
+  const submit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
+
+    // Reset error and loading state
+    setLoading(true);
+    setError("");
+
+    // Send email to API
     let response = await fetch("/api/waitlist", {
       method: "POST",
       body: JSON.stringify({ email: email }),
     });
+
+    // Reset loading state
+    setLoading(false);
+
+    // If the email was sent successfully, display a success message
+    // Otherwise, display an error message
     if (response.ok) {
-      setHasSubmitted(true);
+      setEmailSent(true);
     } else {
       setError(await response.text());
     }
   };
 
+  // While loading, display a loading message
+  if (loading) {
+    return (
+      <div className={styles.formWrapper}>
+        <span className={styles.subtitle}>Loading...</span>
+      </div>
+    );
+  }
+
   // On submit, display a success message
-  if (hasSubmitted) {
+  if (emailSent) {
     return (
       <div className={styles.formWrapper}>
         <span className={styles.subtitle}>
