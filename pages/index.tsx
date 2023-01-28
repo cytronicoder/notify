@@ -7,6 +7,7 @@ import wordmark from "@/assets/wordmark.svg";
 // Components
 import Header from "@/components/Header";
 import Waitlist from "@/components/Waitlist";
+import Commits from "@/components/Commits";
 
 // Styles
 import styles from "@/styles/Home.module.css";
@@ -49,6 +50,8 @@ export default function Home() {
         </header>
 
         <Waitlist />
+
+        <Commits />
       </main>
     </>
   );
