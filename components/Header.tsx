@@ -9,6 +9,10 @@ export default function Header() {
         content="Write a note for someone to sign or leave a message for someone to read."
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <meta name="apple-mobile-web-app-title" content="Notify" />
+      <meta name="application-name" content="Notify" />
+      <meta name="msapplication-TileColor" content="#e75a70" />
       <meta name="theme-color" content="#e75a70" />
 
       {/* Favicons */}
